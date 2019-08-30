@@ -18,17 +18,10 @@ __RadSpellChecker__ spell checks words by comparing them to a predefined list, h
         
 
 If you want to use __RadSpellChecker__ with another culture, you need to write your own class implementing __RadDictionary__, in which you have to load the corresponding .TDF file. You can find some available dictionaries [here](http://www.telerik.com/community/forums/aspnet-ajax/spell/147971-radspell-dictionaries.aspx ) or you can write one of your own following the steps described in [this blog post](http://blogs.telerik.com/aspnet-ajax/posts/10-04-29/creating-a-custom-radspell-dictionary.aspx).
-        
 
+## __Change current language__
 
-
-## __Loading a dictionary through MEF__
-
->As __RadSpellChecker__ instantiates and loads the classes implementing __RadDictionary__ through __MEF__, when you write your class do not forget to mark it with the __[WordDictionaryMetadata("<associatedCulture>")]__ attribute, providing as argument the appropriate culture.
-          
-
-To use RadSpellChecker in Spanish for example, load the corresponding .TDF file and mark the class with __[WordDictionaryMetadata("es-ES")]__ attribute.
-        
+By default RadSpellChecker uses current thread's culture and loads a registered dictionary with the same culture. The culture can also be set per __DocumentSpellChecker__ instance. 
 
 RadSpellChecker matches every type it supports to an instance of a class deriving from __IControlSpellChecker__. This class contains a property of type __DocumentSpellChecker__, which in turn contains __SpellCheckingCulture__ property of type __CultureInfo__. The __DocumentSpellChecker__ class holds a dictionary matching a CultureInfo to a RadDictionary. By setting __SpellCheckingCulture__ property you simply tell the DocumentSpellChecker to use the dictionary corresponding to that culture.
         
@@ -47,7 +40,15 @@ To retrieve the corresponding __IControlSpellChecker__ for your control (in our 
 	documentSpellChecker.SpellCheckingCulture = new System.Globalization.CultureInfo("es-ES");
 {{endregion}}
 
+## __Register dictionary for specific language__
 
+### __Register dictionary with MEF__
+
+>As __RadSpellChecker__ instantiates and loads the classes implementing __RadDictionary__ through __MEF__, when you write your class do not forget to mark it with the __[WordDictionaryMetadata("<associatedCulture>")]__ attribute, providing as argument the appropriate culture.
+          
+
+To use RadSpellChecker in Spanish for example, load the corresponding .TDF file and mark the class with __[WordDictionaryMetadata("es-ES")]__ attribute.
+        
 
 As __IcontrolSpellChecker.SpellChecker__ property is of type ISpellChecker you need to cast it to DocumentSpellChecker.
         
@@ -56,7 +57,7 @@ So, to summarize, thanks to MEF you can load an instance of a class, containing 
 
 
 
-## __Loading a dictionary explicitly__
+### __Register dictionary explicitly__
 
 There is another way to load a dictionary explicitly (without MEF). To achieve that you need to use the __SpellChecker__ property of __IControlSpellChecker__ and cast it to __DocumentSpellChecker__. The cast is needed because DocumentSpellChecker contains a method called __AddDictionary__(__IWordsDictionary__ dictionary, __CultureInfo__ culture) which we can use to add a CultureInfo – RadDictionary pair to the __DocumentSpellChecker__ and thus when we set the SpellCheckingCulture property, it will find the appropriate RadDictionary and use it to generate suggestions.
         
