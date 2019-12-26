@@ -159,7 +159,7 @@ Note that this method will remove the annotation, but will keep its contents. In
 
 
 
-There are also some methods that that remove specific types of annotations for the commonly used types, such as Hyperlinks, Comments, etc. For more information, check the respective article.
+There are also some methods that remove specific types of annotations for the commonly used types, such as Hyperlinks, Comments, etc. For more information, check the respective article.
 
 ## Splitting Annotations
 
